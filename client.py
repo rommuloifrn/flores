@@ -9,7 +9,7 @@ print("UDP target port: %s" % UDP_PORT)
 print("message: %s" % MESSAGE)
 
 sock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_DGRAM) # UDP
+                     socket.SOCK_STREAM) # UDP
 MESSAGE = str.encode(input("Qual a quantidade de pétalas? "))
 #sock.bind((UDP_IP, UDP_PORT))
 sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
