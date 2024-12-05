@@ -33,4 +33,4 @@ for x in range(int(petalas_qtd.decode('utf-8'))):
     
 # recebe resultado
 data, addr = sock.recvfrom(1024)
-print("received message: %s" % data.decode('utf-8'))
+print("mensagem recebida: %s" % data.decode('utf-8'))
