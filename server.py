@@ -1,14 +1,27 @@
 import socket
 
-UDP_IP = "127.0.0.1"
+IP = "127.0.0.1"
 UDP_PORT = 5005
+TCP_PORT = 5008
+
+
+# cria socket TCP
+serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# conecta o socket numa porta
+serversocket.bind((IP, TCP_PORT))
+# coloca o socket para "ouvir" (5 é a quantidade de conexoes enfileiradas ate começar a negar)
+serversocket.listen(5)
+
+(clientsocket, address) = serversocket.accept()
+
+
 
 
 
 # cria socket UDP
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # liga socket UDP a endereço
-sock.bind((UDP_IP, UDP_PORT)) 
+sock.bind((IP, UDP_PORT)) 
 
 conexao_inicial = True
 bem_me_quer = False
@@ -46,5 +59,9 @@ while True:
         mensagem = "ELE(A) TE AMA!"
     else:
         mensagem = "ELE(A)) NÃO TE AMA!"
-    sock.sendto(str.encode(mensagem), addr)
+        
+    #sock.sendto(str.encode(mensagem), addr)
+    clientsocket.send(str.encode(mensagem))
     break
+
+serversocket.close()
