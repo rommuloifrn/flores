@@ -12,7 +12,7 @@ while True:
     data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
     petalas_qtd = int(data)
     print("Quantidade de Petalas: %s" % petalas_qtd)
-    MESSAGE = b'recebido!'
+    MESSAGE = b'servidor confirma!'
     if mandou == False:
         sock.sendto(MESSAGE, addr)
         mandou = True

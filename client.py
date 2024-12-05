@@ -2,30 +2,35 @@ import socket
 
 UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
-MESSAGE = b"oi man!"
 
-print("UDP target IP: %s" % UDP_IP)
-print("UDP target port: %s" % UDP_PORT)
-print("message: %s" % MESSAGE)
+print(f"debug: ip {UDP_IP} na porta {UDP_PORT}")
 
-sock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_STREAM) # UDP
-MESSAGE = str.encode(input("Qual a quantidade de pétalas? "))
-#sock.bind((UDP_IP, UDP_PORT))
-sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
 
-data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
-print("received message: %s" % data)
+# cria socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# envia mensagem para o servidor
+print("Qual a quantidade de pétalas?\n")
+petalas_qtd = str.encode(input())
+sock.sendto(petalas_qtd, (UDP_IP, UDP_PORT)) 
+
+data, addr = sock.recvfrom(1024) # recebe mensagem do servidor, buffer de 1024 bytes
+print("mensagem recebida: %s" % data.decode('utf-8'))
     
-while True:
-    MESSAGE = str.encode(input("Retire a pétala!"))
-    sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+# itera a quantidade de pétalas
+for x in range(int(petalas_qtd.decode('utf-8'))):
+    
+    # envia a retirada da pétala para o server
+    print("Retire a pétala!\n")
+    mensagem = str.encode(input())
+    sock.sendto(mensagem, (UDP_IP, UDP_PORT))
 
-    data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
-    print("received message: %s" % data)
+    # recebe resposta do servidor
+    data, addr = sock.recvfrom(1024)
+    print("mensagem recebida: %s" % data.decode('utf-8'))
     
     data = data.decode('utf-8')
-
-    if (data == "Ele(a) te ama!") or (data == "Ele(a) não te ama!"):
-        break
     
+# recebe resultado
+data, addr = sock.recvfrom(1024)
+print("received message: %s" % data.decode('utf-8'))
